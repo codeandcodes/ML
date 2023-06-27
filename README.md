@@ -17,6 +17,6 @@ $ conda env create -n kaggle --file env.yml
 
 2. Export your existing environment
 ```
-$ conda env export --from-history>ENV.yml
+$ conda env export --from-history > env.yml
 ```
 
