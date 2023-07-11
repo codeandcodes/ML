@@ -239,7 +239,7 @@ def score_dataset(X, y, model=XGBRegressor()):
     # Metric for Housing competition is RMSLE (Root Mean Squared Log Error)
     log_y = np.log(y)
     score = cross_val_score(
-        model, X, log_y, cv=5, scoring="neg_mean_squared_error",
+        model, X, log_y, cv=5, scoring="neg_mean_squared_error", n_jobs=-1
     )
     score = -1 * score.mean()
     score = np.sqrt(score)
@@ -759,10 +759,21 @@ def objective(trial):
         subsample=trial.suggest_float("subsample", 0.2, 1.0),
         reg_alpha=trial.suggest_float("reg_alpha", 1e-4, 1e2, log=True),
         reg_lambda=trial.suggest_float("reg_lambda", 1e-4, 1e2, log=True),
+        # gpu_id=0, # to use gpu, all data types must be numeric, cannot contain object dtypes
+        # tree_method='gpu_hist'
     )
     xgb = XGBRegressor(**xgb_params)
     return score_dataset(X_train, y_train, xgb)
 
+# Some timings
+# M2 Ultra
+#   optuna n_jobs = 1, model n_jobs = 1         Runtime: 00:19:27s
+#   optuna n_jobs = -1, model n_jobs= 1         Runtime: 00:56:44s
+#   optuna n_jobs = 1, model n_jobs = -1        Runtime: 00:02:07s
+# 12900K
+#   optuna n_jobs = 1, model n_jobs = 1         Runtime: 00:09:34s
+#   optuna n_jobs = -1, model n_jobs = 1        Runtime: 00:07:49s
+#   optuna n_jobs = 1, model n_jobs = -1        Runtime: 00:05:02s
 study = optuna.create_study(direction="minimize")
 study.optimize(objective, n_trials=20)
 xgb_params = study.best_params
