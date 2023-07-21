@@ -1,0 +1,15 @@
+name: kaggle
+channels:
+  - defaults
+dependencies:
+  - python
+  - pandas
+  - scikit-learn
+  - ipykernel
+  - matplotlib
+  - seaborn
+  - xgboost
+  - category_encoders
+  - optuna
+  - llvm-openmp=16.0.6
+prefix: /opt/homebrew/Caskroom/miniconda/base/envs/kaggle

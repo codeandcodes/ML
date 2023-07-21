@@ -770,12 +770,13 @@ def objective(trial):
 #   optuna n_jobs = 1, model n_jobs = 1         Runtime: 00:19:27s
 #   optuna n_jobs = -1, model n_jobs= 1         Runtime: 00:56:44s
 #   optuna n_jobs = 1, model n_jobs = -1        Runtime: 00:02:07s
+#   optuna n_jobs = 2, model n_jobs = -1        Runtime: 00:02:48s
 # 12900K
 #   optuna n_jobs = 1, model n_jobs = 1         Runtime: 00:09:34s
 #   optuna n_jobs = -1, model n_jobs = 1        Runtime: 00:07:49s
 #   optuna n_jobs = 1, model n_jobs = -1        Runtime: 00:05:02s
 study = optuna.create_study(direction="minimize")
-study.optimize(objective, n_trials=20)
+study.optimize(objective, n_trials=20, n_jobs=1)
 xgb_params = study.best_params
 
 # %%
