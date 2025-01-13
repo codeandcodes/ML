@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 
 submission.csv
+data/
+*.png
+.DS_STORE
