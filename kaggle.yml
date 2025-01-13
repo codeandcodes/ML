@@ -12,4 +12,5 @@ dependencies:
   - category_encoders
   - optuna
   - llvm-openmp=16.0.6
+  - graphviz
 prefix: /opt/homebrew/Caskroom/miniconda/base/envs/kaggle
